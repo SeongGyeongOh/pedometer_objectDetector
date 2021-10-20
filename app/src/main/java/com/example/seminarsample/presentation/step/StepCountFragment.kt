@@ -48,6 +48,10 @@ class StepCountFragment @Inject constructor() : BaseFragment<FragmentStepCountBi
         super.onViewCreated(view, savedInstanceState)
         setVisibility()
 
+        val date = pref.getStringValue("today")
+
+        Logger.i("프레그먼트가 시작될 때 날짜 확인 $date")
+
         binding.graphBtn.setOnClickListener {
             navigateToGraphFragment()
         }

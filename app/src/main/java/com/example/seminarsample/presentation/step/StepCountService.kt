@@ -172,42 +172,38 @@ class StepCountService @Inject constructor(): Service(), SensorEventListener {
         CoroutineScope(Dispatchers.IO).launch {
             if (event?.sensor?.type == Sensor.TYPE_STEP_COUNTER) {
                 dateInit = pref.getStringValue("today") != System.currentTimeMillis().getCurrentDate()
-
-                if (event?.sensor?.type == Sensor.TYPE_STEP_COUNTER) {
-                    dateInit = pref.getStringValue("today") != System.currentTimeMillis().getCurrentDate()
-                    if (stepType == StepType.DATE_INIT) {
-                        Logger.d("일시정지를 눌렀다가 다시 시작했는데 날짜가 리셋됐을 때")
-                        sCounterSteps = event.values[0].toInt()
-                        stepType = StepType.INIT
-                    }
-                    else if (dateInit && !pref.getStringValue("today").isNullOrBlank()) {
-                        Logger.d("날짜가 리셋됐을 때/앱 최초 실행이 아닐 때${pref.getIntValue("defaultSCounterSteps")}")
-                        sCounterSteps = pref.getIntValue("defaultSCounterSteps")
-                        storedCount = 0
-                        pref.setStringValue("today", System.currentTimeMillis().getCurrentDate())
-                        stepType = StepType.INIT
-                    } else if (dateInit && pref.getStringValue("today").isNullOrBlank()) {
-                        sCounterSteps = event.values[0].toInt()
-                        storedCount = 0
-                        pref.setStringValue("today", System.currentTimeMillis().getCurrentDate())
-                        stepType = StepType.INIT
-                    } else if (stepType == StepType.FIRST) {
-                        sCounterSteps = event.values[0].toInt()
-                        Logger.d("여기!!! $sCounterSteps")
-                        stepType = StepType.INIT
-                    }
-
-                    defaultStep = sCounterSteps
-                    val addedVal = event.values[0].toInt() - sCounterSteps + storedCount
-
-                    pref.setIntValue("rebootDefault", addedVal)
-                    pref.setIntValue("defaultSCounterSteps", event.values[0].toInt())
-
-                    insertData(System.currentTimeMillis().getCurrentDate(), addedVal)
-
-                    Logger.d("디비에 추가되는 데이터[${addedVal}] : 이벤트[${event.values[0].toInt()}] " +
-                            ": 초기스텝[$sCounterSteps] : 저장된 스텝[$storedCount]")
+                if (stepType == StepType.DATE_INIT) {
+                    Logger.d("일시정지를 눌렀다가 다시 시작했는데 날짜가 리셋됐을 때")
+                    sCounterSteps = event.values[0].toInt()
+                    stepType = StepType.INIT
                 }
+                else if (dateInit && !pref.getStringValue("today").isNullOrBlank()) {
+                    Logger.d("날짜가 리셋됐을 때/앱 최초 실행이 아닐 때${pref.getIntValue("defaultSCounterSteps")}")
+                    sCounterSteps = pref.getIntValue("defaultSCounterSteps")
+                    storedCount = 0
+                    pref.setStringValue("today", System.currentTimeMillis().getCurrentDate())
+                    stepType = StepType.INIT
+                } else if (dateInit && pref.getStringValue("today").isNullOrBlank()) {
+                    sCounterSteps = event.values[0].toInt()
+                    storedCount = 0
+                    pref.setStringValue("today", System.currentTimeMillis().getCurrentDate())
+                    stepType = StepType.INIT
+                } else if (stepType == StepType.FIRST) {
+                    sCounterSteps = event.values[0].toInt()
+                    Logger.d("여기!!! $sCounterSteps")
+                    stepType = StepType.INIT
+                }
+
+                defaultStep = sCounterSteps
+                val addedVal = event.values[0].toInt() - sCounterSteps + storedCount
+
+                pref.setIntValue("rebootDefault", addedVal)
+                pref.setIntValue("defaultSCounterSteps", event.values[0].toInt())
+
+                insertData(System.currentTimeMillis().getCurrentDate(), addedVal)
+
+                Logger.d("디비에 추가되는 데이터[${addedVal}] : 이벤트[${event.values[0].toInt()}] " +
+                        ": 초기스텝[$sCounterSteps] : 저장된 스텝[$storedCount]")
             }
         }
     }

@@ -12,14 +12,11 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.asLiveData
 import com.example.seminarsample.databinding.ActivityObjectDetectorBinding
 import com.example.seminarsample.utils.Logger
-import com.example.seminarsample.utils.getCustomObjectDetectorOptionsForLivePreview
-import com.example.seminarsample.utils.getObjectDetectorOptionsForLivePreview
 import com.google.mlkit.common.model.LocalModel
 import com.google.mlkit.vision.objects.ObjectDetector
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
-
 
 @AndroidEntryPoint
 class ObjectDetectorActivity : AppCompatActivity() {
@@ -113,7 +110,8 @@ class ObjectDetectorActivity : AppCompatActivity() {
     @SuppressLint("UnsafeOptInUsageError")
     private fun analyzer() {
         val localModel = LocalModel.Builder()
-            .setAssetFilePath("object_labeler.tflite")
+//            .setAssetFilePath("object_labeler.tflite")
+            .setAssetFilePath("model.tflite")
             .build()
 
         imageAnalysis = ImageAnalysis.Builder()

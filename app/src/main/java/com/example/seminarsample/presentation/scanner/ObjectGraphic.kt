@@ -44,9 +44,7 @@ class ObjectGraphic(
             canvas?.drawRoundRect(rect, ROUND_RECT_CORNER, ROUND_RECT_CORNER, rectPaint)
 
             // Renders the barcode at the bottom of the box.
-            obj.labels.forEach { label ->
-                canvas?.drawText(objLabel, rect.left, rect.bottom, barcodePaint)
-            }
+            canvas?.drawText(objLabel, rect.centerX(), rect.bottom, barcodePaint)
         }
     }
 }
